@@ -63,7 +63,7 @@ A simple task management application built with Laravel and Vue.js. This applica
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE=your_database_name
+    DB_DATABASE=task-manager
     DB_USERNAME=your_database_username
     DB_PASSWORD=your_database_password
 
