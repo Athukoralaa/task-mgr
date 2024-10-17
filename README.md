@@ -36,7 +36,7 @@ A simple task management application built with Laravel and Vue.js. This applica
    git clone https://github.com/Athukoralaa/task-mgr.git
    cd task-mgr
 
-2. **Install Node.js dependencies**
+2. **Install PHP dependencies**
     
     ```bash
     composer install
