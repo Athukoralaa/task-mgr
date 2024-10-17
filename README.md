@@ -68,6 +68,7 @@ A simple task management application built with Laravel and Vue.js. This applica
     DB_PASSWORD=your_database_password
 
 7. **Run database migrations and seeders**
+    Start the mysql server (Workbench or XAMP), then run
 
     ```sh
     php artisan migrate --seed
@@ -81,6 +82,9 @@ A simple task management application built with Laravel and Vue.js. This applica
 
     ```sh
     php artisan serve
+or
+    ```sh
+    php -S localhost:8000 -t public
 
 10. **Access the application**
 
@@ -89,6 +93,7 @@ A simple task management application built with Laravel and Vue.js. This applica
 ### Usage
 
 1. Register a new user or log in with an existing user.
+    (Email Address:john@example.com     Password:password)
 2. Create new tasks by clicking the "Create Task" button.
 3. Edit or delete tasks using the buttons in the task list.
 4. Filter tasks by clicking on the tabs (All, Pending, Completed).
