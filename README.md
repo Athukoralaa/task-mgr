@@ -82,8 +82,7 @@ A simple task management application built with Laravel and Vue.js. This applica
 
     ```sh
     php artisan serve
-or
-    ```sh
+`or`
     php -S localhost:8000 -t public
 
 10. **Access the application**
