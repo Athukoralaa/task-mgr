@@ -14,7 +14,7 @@ class TaskController extends Controller
     public function index()
     {
         // Retrieve all tasks for the authenticated user, paginated (10 tasks per page)
-        $tasks = auth()->user()->tasks()->paginate(10);
+        $tasks = auth()->user()->tasks()->paginate(5);
 
         // Return tasks in JSON format
         return response()->json($tasks);

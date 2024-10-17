@@ -23,45 +23,32 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Slightly darken the background */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000; /* Higher z-index for modal visibility */
+  z-index: 1000; /* Ensure it is above other elements */
 }
 
-/* Modal window styling */
+/* Modal container */
 .custom-modal {
-  background: #fff;
-  padding: 1.5rem;
+  background: white;
+  padding: 20px;
   border-radius: 8px;
+  max-width: 600px;
   width: 100%;
-  max-width: 500px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 2010; /* Higher than the backdrop */
-  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* Header styling */
+/* Modal header */
 .custom-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 0.5rem;
   border-bottom: 1px solid #e5e5e5;
-}
-
-/* Body styling */
-.custom-modal-body {
-  padding: 1rem 0;
-}
-
-/* Footer styling */
-.custom-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 0.5rem;
-  border-top: 1px solid #e5e5e5;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 /* Close button */
@@ -70,8 +57,37 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  line-height: 1;
+  color: #aaa;
+  transition: color 0.3s;
+}
+
+.custom-close-btn:hover {
   color: #000;
-  padding: 0;
+}
+
+/* Modal body */
+.custom-modal-body {
+  padding-bottom: 20px;
+}
+
+/* Modal footer */
+.custom-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 10px;
+  margin-top: 20px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
