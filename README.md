@@ -36,18 +36,60 @@ A simple task management application built with Laravel and Vue.js. This applica
    git clone https://github.com/yourusername/laravel-task-manager.git
    cd laravel-task-manager
 
-2. ### Install Node.js dependencies
+2. **Install Node.js dependencies**
+    
+    ```bash
+    composer install
 
-    Run the following command to install all required Node.js packages:
+3. **Install Node.js dependencies**
     
     ```bash
     npm install
 
-3. ### Install Node.js dependencies
+4. **Copy the .env.example file to .env**
 
-    Run the following command to install all required Node.js packages:
-    
     ```bash
-    npm install
+    Copy the .env.example file to .env
 
+5. **Generate an application key**
 
+    ```sh
+    php artisan key:generate
+
+6. **Configure your database**
+    Update the .env file with your database credentials:
+
+    ```sh
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_database_username
+    DB_PASSWORD=your_database_password
+
+7. **Run database migrations and seeders**
+
+    ```sh
+    php artisan migrate --seed
+
+8. **Build the frontend assets**
+
+    ```sh
+    npm run dev
+
+9. **Start the development server**
+
+    ```sh
+    php artisan serve
+
+10. **Access the application**
+
+    Open your browser and go to http://localhost:8000
+
+### Usage
+
+1. Register a new user or log in with an existing user.
+2. Create new tasks by clicking the "Create Task" button.
+3. Edit or delete tasks using the buttons in the task list.
+4. Filter tasks by clicking on the tabs (All, Pending, Completed).
+5. Navigate through pages using the pagination controls.
