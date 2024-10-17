@@ -3,26 +3,43 @@
     <h1>Task Manager</h1>
     <button @click="showCreateModal">Create Task</button>
 
-    <table v-if="tasks.length" class="task-table">
+    <!-- Vue Tabs -->
+    <div>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: activeTab === 'all' }" @click="activeTab = 'all'">All</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: activeTab === 'pending' }" @click="activeTab = 'pending'">Pending</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: activeTab === 'completed' }" @click="activeTab = 'completed'">Completed</a>
+        </li>
+      </ul>
+    </div>
+
+    <table v-if="filteredTasks.length" class="task-table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th class="col-title">Title</th>
+          <th class="col-description">Description</th>
+          <th class="col-status">Status</th>
+          <th class="col-actions">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="task in tasks" :key="task.id">
-          <td>{{ task.title }}</td>
+        <tr v-for="task in filteredTasks" :key="task.id">
+          <td class="col-title">{{ task.title }}</td>
           <td class="description-cell">{{ task.description }}</td>
-          <td>
-            {{ task.status }}
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" :id="'flexSwitchCheckDefault' + task.id" :checked="task.status === 'completed'" @change="toggleTaskStatus(task)">
+          <td class="col-status">
+            <div class="status-container">
+              <span>{{ task.status }}</span>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" :id="'flexSwitchCheckDefault' + task.id" :checked="task.status === 'completed'" @change="toggleTaskStatus(task)">
+              </div>
             </div>
           </td>
-          <td>
+          <td class="col-actions">
             <button @click="showEditModal(task)" class="btn btn-primary">Edit</button>
             <button @click="showDeleteModal(task)" class="btn btn-secondary">Delete</button>
           </td>
@@ -71,13 +88,13 @@
             <label for="edit-task-description">Description</label>
             <textarea v-model="selectedTask.description" id="edit-task-description" name="edit-task-description" class="form-control" placeholder="Task Description" required></textarea>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="task-status">Status</label>
             <select v-model="newTask.status" id="task-status" name="task-status" class="form-control" required>
               <option value="pending">Pending</option>
               <option value="completed">Completed</option>
             </select>
-          </div>
+          </div> -->
         </form>
       </template>
       <template v-slot:footer>
@@ -110,6 +127,7 @@ export default {
   data() {
     return {
       tasks: [],
+      page_data: {},
       isCreateModalVisible: false,
       isEditModalVisible: false,
       isDeleteModalVisible: false,
@@ -118,21 +136,28 @@ export default {
         description: '',
         status: 'pending'
       },
-      selectedTask: null
+      selectedTask: null,
+      activeTab: 'all'
     };
+  },
+  computed: {
+    filteredTasks() {
+      if (this.activeTab === 'all') {
+        return this.tasks.data || [];
+      } else if (this.activeTab === 'pending') {
+        return (this.tasks.data || []).filter(task => task.status === 'pending');
+      } else if (this.activeTab === 'completed') {
+        return (this.tasks.data || []).filter(task => task.status === 'completed');
+      }
+      return [];
+    }
   },
   methods: {
     // Fetch tasks from the backend
     fetchTasks(page = 1) {
       axios.get(`/tasks?page=${page}`).then(response => {
         console.log("Full response:", response); // Log the entire response
-        if (response.data && response.data.data) {
-          this.tasks = response.data.data; // Assuming paginated response
-        } else {
-          this.tasks = response.data; // Handle non-paginated response
-        }
-        console.log("tk", this.tasks); // Corrected reference to this.tasks
-        console.log("last page", response.data.last_page);
+        this.tasks = response.data; // Assuming paginated response
         this.page_data = response.data;
       }).catch(error => {
         console.error('Error fetching tasks:', error);
@@ -140,6 +165,11 @@ export default {
     },
     // Show the create task modal
     showCreateModal() {
+      this.newTask = {
+        title: '',
+        description: '',
+        status: 'pending' // Default status
+      };
       this.isCreateModalVisible = true;
     },
     // Show the edit task modal with pre-filled data
@@ -155,8 +185,10 @@ export default {
     // Create a new task
     createTask() {
       axios.post('/tasks', this.newTask).then(response => {
-        this.tasks.push(response.data.task);
+        this.fetchTasks();
         this.closeModal();
+      }).catch(error => {
+        console.error('Error creating task:', error);
       });
     },
     // Update the task
@@ -201,6 +233,28 @@ export default {
   border-collapse: collapse;
   margin-top: 20px;
   table-layout: fixed;
+}
+
+.col-title {
+  width: 20%; /* Adjust the width as needed */
+}
+
+.col-description {
+  width: 45%; /* Adjust the width as needed */
+}
+
+.col-status {
+  width: 15% /* Adjust the width as needed */
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.col-actions {
+  width: 20%; /* Adjust the width as needed */
 }
 
 .description-cell {
@@ -273,5 +327,120 @@ export default {
 
 .pagination-controls button {
   margin: 0 10px;
+}
+
+.nav-tabs {
+  margin-bottom: 20px;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+/* Responsive CSS */
+@media (max-width: 1200px) {
+  .col-title {
+    width: 25%;
+  }
+
+  .col-description {
+    width: 35%;
+  }
+
+  .col-status {
+    width: 20%;
+  }
+
+  .col-actions {
+    width: 20%;
+  }
+}
+
+@media (max-width: 992px) {
+  .col-title {
+    width: 30%;
+  }
+
+  .col-description {
+    width: 30%;
+  }
+
+  .col-status {
+    width: 20%;
+  }
+
+  .col-actions {
+    width: 20%;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-title {
+    width: 35%;
+  }
+
+  .col-description {
+    width: 25%;
+  }
+
+  .col-status {
+    width: 20%;
+  }
+
+  .col-actions {
+    width: 20%;
+  }
+
+  .description-cell {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .task-table, .task-table th, .task-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .task-table th, .task-table td {
+    box-sizing: border-box;
+  }
+
+  .task-table th {
+    display: none;
+  }
+
+  .task-table td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+  }
+
+  .task-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .col-title::before {
+    content: "Title";
+  }
+
+  .col-description::before {
+    content: "Description";
+  }
+
+  .col-status::before {
+    content: "Status";
+  }
+
+  .col-actions::before {
+    content: "Actions";
+  }
 }
 </style>
