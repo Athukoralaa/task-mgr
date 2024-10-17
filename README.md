@@ -35,3 +35,19 @@ A simple task management application built with Laravel and Vue.js. This applica
    ```sh
    git clone https://github.com/yourusername/laravel-task-manager.git
    cd laravel-task-manager
+
+2. ### Install Node.js dependencies
+
+    Run the following command to install all required Node.js packages:
+    
+    ```bash
+    npm install
+
+3. ### Install Node.js dependencies
+
+    Run the following command to install all required Node.js packages:
+    
+    ```bash
+    npm install
+
+
