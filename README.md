@@ -33,8 +33,8 @@ A simple task management application built with Laravel and Vue.js. This applica
 1. **Clone the repository**
 
    ```sh
-   git clone https://github.com/yourusername/laravel-task-manager.git
-   cd laravel-task-manager
+   git clone https://github.com/Athukoralaa/task-mgr.git
+   cd task-mgr
 
 2. **Install Node.js dependencies**
     
