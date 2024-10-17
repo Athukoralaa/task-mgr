@@ -49,7 +49,7 @@ A simple task management application built with Laravel and Vue.js. This applica
 4. **Copy the .env.example file to .env**
 
     ```bash
-    Copy the .env.example file to .env
+    cp .env.example .env
 
 5. **Generate an application key**
 
